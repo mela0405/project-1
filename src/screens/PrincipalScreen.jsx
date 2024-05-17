@@ -2,6 +2,7 @@ import { View, Text, Image } from 'react-native'
 import React from 'react'
 
 export default function PrincipalScreen() {
+    // asd
     return (
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
             <Text style={{ color: 'black', fontSize: 20 }}>Quimico Metalurgico</Text>
