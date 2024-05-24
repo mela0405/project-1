@@ -125,23 +125,28 @@ export default function ReportScreen() {
                     <View style={{ borderBlockColor: '#022857', borderWidth: 1, borderRadius: 7, gap: 15, padding: 10 }}>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={{ width: '50%', marginLeft: 30 }}>Cantidad de Filtros:</Text>
-                            <Text style={{ width: '50%', marginRight: 30 }}>2</Text>
+                            <TextInput style={{ width: '46%', marginRight: 30 }}>
+                            </TextInput>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={{ width: '50%', marginLeft: 30 }}>Cantidad de Espesadores:</Text>
-                            <Text style={{ width: '50%', marginRight: 30 }}>1</Text>
+                            <TextInput style={{ width: '46%', marginRight: 30 }}>
+                            </TextInput>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={{ width: '50%', marginLeft: 30 }}>TAG:</Text>
-                            <Text style={{ width: '50%', marginRight: 30 }}>0360-FL-0001/0002 y 0420-TK-0001</Text>
+                            <TextInput style={{ width: '46%', marginRight: 30 }}>
+                            </TextInput>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={{ width: '50%', marginLeft: 30 }}>Locacion:</Text>
-                            <Text style={{ width: '50%', marginRight: 30 }}>Espesamiento y Filtrado de Concentrado </Text>
+                            <TextInput style={{ width: '46%', marginRight: 30 }}>
+                            </TextInput>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={{ width: '50%', marginLeft: 30 }}>Material Procesado:</Text>
-                            <Text style={{ width: '50%', marginRight: 30 }}>Concentrado de Cobre</Text>
+                            <TextInput style={{ width: '46%', marginRight: 30 }}>
+                            </TextInput>
                         </View>
                     </View>
                 </View>
@@ -152,7 +157,6 @@ export default function ReportScreen() {
                         width: 100,
                         borderWidth: 1,
                         borderColor: '#3b0d6b',
-                        marginTop: 50,
                         width: 150,
                         height: 40,
                         paddingRight: 13,
@@ -172,7 +176,6 @@ export default function ReportScreen() {
                         width: 300,
                         borderWidth: 1,
                         borderColor: '#3b0d6b',
-                        marginTop: 50,
                         width: 250,
                         height: 40,
                         paddingRight: 13,
