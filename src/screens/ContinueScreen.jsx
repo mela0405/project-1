@@ -5,9 +5,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function ContinueScreen() {
+  
   const buttonArray = [
     {
       imagen: require('../../assets/img/equipo1.png'),
@@ -22,6 +24,8 @@ export default function ContinueScreen() {
       name: 'Filtro Larox-03 (0360-FL-0003)'
     }
   ]
+
+  const router = useNavigation()
 
   return (
     <View style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -103,6 +107,7 @@ export default function ContinueScreen() {
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 30, marginTop: 120 }}>
         <TouchableOpacity
+        onPress={()=>router.navigate('menu')}
           style={{
             width: 100,
             borderWidth: 1,
@@ -122,6 +127,7 @@ export default function ContinueScreen() {
 
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={()=>router.navigate('ciclo')}
           style={{
             width: 100,
             borderWidth: 1,

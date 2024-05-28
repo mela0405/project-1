@@ -1,8 +1,15 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function PrincipalScreen() {
     // asd
+    
+    const router = useNavigation()
+
+    setTimeout(() => {
+        router.navigate('login')
+    }, 2000);
     return (
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
             <Text style={{ color: 'black', fontSize: 20 }}>Quimico Metalurgico</Text>

@@ -4,58 +4,113 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function CicloScreen() {
     const buttonArray = [
         {
+            id: 1,
             texto: 'Tiempo de Ciclo (min)',
             valor: ''
         },
         {
+            id: 2,
             texto: 'Tonelaje (TM)',
             valor: ''
         },
         {
+            id: 3,
             texto: '%h Humedad',
             valor: ''
         },
         {
+            id: 4,
             texto: 'Filtrado (s)',
             valor: ''
         },
         {
+            id: 5,
             texto: 'Prensado (s)',
             valor: ''
         },
         {
+            id: 6,
             texto: 'Secados (s)',
             valor: ''
         },
         {
+            id: 7,
             texto: 'Filtrado (bar)',
             valor: ''
         },
         {
+            id: 8,
             texto: 'Prensado (bar)',
             valor: ''
         },
         {
+            id: 9,
             texto: 'Secado (bar)',
             valor: ''
         },
         {
+            id: 10,
             texto: 'Punto G (bar)',
             valor: ''
         },
     ]
 
+    const [selectedLanguage, setSelectedLanguage] = useState();
 
+    const [inputArray, setInputArray] = useState(buttonArray)
 
+    const handleComments = (text, id) => {
+        const temp = [...inputArray]
+        const temR = temp.map((obj) => {
+            if (obj.id == id) {
+                return {
+                    ...obj,
+                    valor: text
+                }
+            } else {
+                console.log(obj);
+                return obj
+            }
+        })
 
-    const [valor, setValor] = useState('')
-    // const [estructura, setEstructura] = useState({
-    //     Tiempo de Ciclo:'',
-    //    })
+        setInputArray(temR)
+    }
+
+    const [counter, setCounter] = useState(1)
+
+    const onChangeTimes = (event, selectedDate, flagMethod) => {
+        console.log(event);
+        console.log(selectedDate);
+        if (flagMethod == 'begin') {
+            setStateAll({
+                ...stateAll,
+                valBegin: selectedDate,
+                showBegin: false
+            })
+        } else {
+            setStateAll({
+                ...stateAll,
+                valEnd: selectedDate,
+                showEnd: false
+            })
+        }
+    }
+
+    const [stateAll, setStateAll] = useState({
+        showBegin: false,
+        showEnd: false,
+        valBegin: new Date(),
+        valEnd: new Date(),
+    })
+    const router = useNavigation()
 
     return (
         <ScrollView contentContainerStyle={{ flex: 1 }}>
@@ -89,7 +144,9 @@ export default function CicloScreen() {
 
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', }}>
-                <TouchableOpacity style={{
+                {/* <TouchableOpacity 
+                
+                style={{
                     width: 100,
                     borderWidth: 1,
                     borderColor: '#e94927',
@@ -105,7 +162,32 @@ export default function CicloScreen() {
                     backgroundColor: '#e94927'
                 }}>
                     <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>TURNO "A"</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                <View style={{
+                    borderWidth: 1,
+                    borderColor: '#e94927',
+                    width: 150,
+                    height: 80,
+                    paddingRight: 13,
+                    paddingLeft: 13,
+                    marginLeft: 20,
+                    borderRadius: 15,
+                    backgroundColor: '#e94927'
+                }}>
+                    <Picker
+                        mode='dropdown'
+                        style={{
+                            width: '100%',
+                            height: '100%'
+                        }}
+                        selectedValue={selectedLanguage}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedLanguage(itemValue)
+                        }>
+                        <Picker.Item label="Java" value="java" />
+                        <Picker.Item label="JavaScript" value="js" />
+                    </Picker>
+                </View>
                 <Text style={{
                     borderWidth: 1,
                     borderColor: '#7623cc',
@@ -115,7 +197,7 @@ export default function CicloScreen() {
                     borderRadius: 15,
                     backgroundColor: '#7623cc'
                 }}>
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 28 }}>CICLO 1</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 28 }}>CICLO {counter}</Text>
                 </Text>
                 <Text style={{
                     borderWidth: 1,
@@ -151,10 +233,24 @@ export default function CicloScreen() {
                                 fontSize: 15
                             }}> Inicio Ciclo:
                             </Text>
-                            <TextInput style={{
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setStateAll({
+                                        ...stateAll,
+                                        showBegin: true
+                                    })
+                                }}
+                                style={{
+                                    backgroundColor: 'white', paddingHorizontal: 10,
+                                    borderRadius: 10
+                                }}>
+                                <Text>{stateAll.valBegin.toTimeString().split(':')[0] + ":" + stateAll.valBegin.toTimeString().split(':')[1]}</Text>
+                                {/* <Text>{begin.toTimeString().split(':')[0] + ":" + begin.toTimeString().split(':')[1]}</Text> */}
+                            </TouchableOpacity>
+                            {/* <TextInput style={{
                                 backgroundColor: 'white', paddingHorizontal: 10,
                                 borderRadius: 10
-                            }} />
+                            }} /> */}
                         </View>
                         <View style={{
                             borderColor: '#e4cbff',
@@ -173,10 +269,23 @@ export default function CicloScreen() {
                                 fontSize: 15
                             }}> Fin Ciclo:
                             </Text>
-                            <TextInput style={{
+                            <TouchableOpacity onPress={() => {
+                                setStateAll({
+                                    ...stateAll,
+                                    showEnd: true
+                                })
+                            }}
+                                style={{
+                                    backgroundColor: 'white', paddingHorizontal: 10,
+                                    borderRadius: 10
+                                }}>
+
+                                <Text>{stateAll.valEnd.toTimeString().split(':')[0] + ":" + stateAll.valEnd.toTimeString().split(':')[1]}</Text>
+                            </TouchableOpacity>
+                            {/* <TextInput style={{
                                 backgroundColor: 'white', paddingHorizontal: 10,
                                 borderRadius: 10
-                            }} />
+                            }} /> */}
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, borderColor: '#23356a' }}>
@@ -189,7 +298,7 @@ export default function CicloScreen() {
                             })
                         } */}
                         {
-                            buttonArray.filter((obj, index) => index < 3).map((obj2, index) => {
+                            inputArray.filter((obj, index) => index < 3).map((obj2, index2) => {
                                 return (
                                     <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
                                         <Text style={{
@@ -201,53 +310,19 @@ export default function CicloScreen() {
                                             backgroundColor: '#23356a',
                                             color: 'white'
                                         }}>{obj2.texto}</Text>
-                                        <TextInput  style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
+                                        <TextInput
+                                            value={obj2.valor}
+                                            onChangeText={(text) => handleComments(text, obj2.id)}
+                                            style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
                                     </View>
                                 )
                             })
                         }
-                        {/* <View style={{ width: 150, flexDirection: 'column', justifyContent: 'center' }}>
-                            <Text style={{
-                                width: '100%',
-                                borderWidth: 1,
-                                borderRadius: 7,
-                                padding: 4,
-                                backgroundColor: '#23356a',
-                                color: 'white'
-                            }}>Tiempo de ciclo (min)</Text>
-                            <TextInput
-                                onChangeText={(text) => { setValor(text) }}
-                                style={{ width: '100%', borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
-                        </View>
-                        <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
-                            <Text style={{
-                                borderWidth: 1,
-                                borderRadius: 7,
-                                width: '100%',
-                                textAlign: 'center',
-                                padding: 4,
-                                backgroundColor: '#23356a',
-                                color: 'white'
-                            }}>Tonelaje (TM)</Text>
-                            <TextInput style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
-                        </View>
-                        <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
-                            <Text style={{
-                                borderWidth: 1,
-                                borderRadius: 7,
-                                width: '100%',
-                                textAlign: 'center',
-                                padding: 4,
-                                backgroundColor: '#23356a',
-                                color: 'white'
-                            }}>% Humedad</Text>
-                            <TextInput style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
-                        </View> */}
                     </View>
                     <Text style={{ fontWeight: 'bold', marginTop: 30 }}>TIEMPOS (segundos)</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, borderColor: '#23356a' }}>
                         {
-                            buttonArray.filter((obj, index) => index >= 3 && index <= 5).map((obj3, index) => {
+                            inputArray.filter((obj, index) => index >= 3 && index <= 5).map((obj3, index2) => {
                                 return (
                                     <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
                                         <Text style={{
@@ -259,56 +334,22 @@ export default function CicloScreen() {
                                             backgroundColor: '#23356a',
                                             color: 'white'
                                         }}>{obj3.texto}</Text>
-                                        <TextInput value={obj3.valor} style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
+                                        <TextInput
+                                            value={obj3.valor}
+                                            onChangeText={(text) => handleComments(text, obj3.id)}
+                                            style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
                                     </View>
                                 )
                             })
 
                         }
                     </View>
-                    {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderColor: '#23356a', }}>
-                        <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
-                            <Text style={{
-                                borderWidth: 1,
-                                borderRadius: 7,
-                                width: '100%',
-                                textAlign: 'center',
-                                padding: 4,
-                                backgroundColor: '#23356a',
-                                color: 'white'
-                            }}>Filtrado </Text>
-                            <TextInput style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
-                        </View>
-                        <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
-                            <Text style={{
-                                borderWidth: 1,
-                                borderRadius: 7,
-                                width: '100%',
-                                textAlign: 'center',
-                                padding: 4,
-                                backgroundColor: '#23356a',
-                                color: 'white'
-                            }}>Prensado</Text>
-                            <TextInput style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
-                        </View>
-                        <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
-                            <Text style={{
-                                borderWidth: 1,
-                                borderRadius: 7,
-                                width: '100%',
-                                textAlign: 'center',
-                                padding: 4,
-                                backgroundColor: '#23356a',
-                                color: 'white'
-                            }}>Secado</Text>
-                            <TextInput style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
-                        </View>
-                    </View> */}
+
                     <Text style={{ fontWeight: 'bold', marginTop: 30 }}>PRESION (bar)</Text>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, borderColor: '#23356a' }}>
                         {
-                            buttonArray.filter((obj, index) => index > 5 && index <= 8).map((obj4, index) => {
+                            inputArray.filter((obj, index) => index > 5 && index <= 8).map((obj4, index2) => {
                                 return (
                                     <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
                                         <Text style={{
@@ -320,53 +361,15 @@ export default function CicloScreen() {
                                             backgroundColor: '#23356a',
                                             color: 'white'
                                         }}>{obj4.texto}</Text>
-                                        <TextInput value={obj4.valor} style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
+                                        <TextInput
+                                            value={obj4.valor}
+                                            onChangeText={(valor) => handleComments(valor, obj4.id)}
+                                            style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
                                     </View>
                                 )
                             })
                         }
-
                     </View>
-
-                    {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderColor: '#23356a', }}>
-                        <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
-                            <Text style={{
-                                borderWidth: 1,
-                                borderRadius: 7,
-                                width: '100%',
-                                textAlign: 'center',
-                                padding: 4,
-                                backgroundColor: '#23356a',
-                                color: 'white'
-                            }}>Filtrado</Text>
-                            <TextInput style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
-                        </View>
-                        <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
-                            <Text style={{
-                                borderWidth: 1,
-                                borderRadius: 7,
-                                width: '100%',
-                                textAlign: 'center',
-                                padding: 4,
-
-                                backgroundColor: '#23356a',
-                                color: 'white'
-                            }}>Prensado</Text>
-                            <TextInput style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
-                        </View>
-                        <View style={{ flexDirection: 'column', width: 150, justifyContent: 'center' }}>
-                            <Text style={{
-                                borderWidth: 1,
-                                borderRadius: 7,
-                                width: '100%',
-                                textAlign: 'center',
-                                padding: 4,
-                                backgroundColor: '#23356a',
-                                color: 'white'
-                            }}>Secado</Text>
-                            <TextInput style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
-                        </View>
-                    </View> */}
                     <Text style={{ fontWeight: 'bold', marginTop: 30 }}>PUNTO G</Text>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <View style={{ flexDirection: 'column', justifyContent: 'center', flex: 0.4 }}>
@@ -379,8 +382,11 @@ export default function CicloScreen() {
                                     padding: 4,
                                     backgroundColor: '#23356a',
                                     color: 'white'
-                                }}>{buttonArray[buttonArray.length - 1].texto}</Text>
-                                <TextInput value={buttonArray[buttonArray.length - 1].valor} style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
+                                }}>{inputArray[inputArray.length - 1].texto}</Text>
+                                <TextInput
+                                    value={inputArray[inputArray.length - 1].valor}
+                                    onChangeText={(text) => handleComments(text, 10)}
+                                    style={{ borderWidth: 1, borderRadius: 7, textAlign: 'center' }} />
                             </View>
                         </View>
                         <View style={{ flex: 0.6 }}>
@@ -405,7 +411,7 @@ export default function CicloScreen() {
                     }}>PROMEDIOS</Text>
                     <View style={{ borderWidth: 1, borderRadius: 10, flex: 1, padding: 10, gap: 8, margin: 5 }}>
                         {
-                            buttonArray.map((obj, index) => {
+                            inputArray.map((obj, index) => {
                                 return (
                                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                         <Text>{obj.texto}</Text>
@@ -421,6 +427,12 @@ export default function CicloScreen() {
                                                 padding: 5
                                             }}>
                                             {obj.valor}
+                                            {/* onChangeText={()=> {
+                                                setValor({
+                                                    ...valor,
+                                                    valor:text
+                                                })
+                                            }} */}
                                         </Text>
 
                                     </View>
@@ -432,6 +444,13 @@ export default function CicloScreen() {
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 30, marginTop: 20 }}>
                 <TouchableOpacity
+                    onPress={() => {
+                        if (counter > 1) {
+                            setCounter(counter - 1)
+                        } else {
+                            router.navigate('continue')
+                        }
+                    }}
                     style={{
                         width: 100,
                         borderWidth: 1,
@@ -452,6 +471,9 @@ export default function CicloScreen() {
 
                 </TouchableOpacity>
                 <TouchableOpacity
+                    onPress={() => {
+                        setCounter(counter + 1)
+                    }}
                     style={{
                         width: 100,
                         borderWidth: 1,
@@ -488,6 +510,30 @@ export default function CicloScreen() {
                 <Fontisto name="nav-icon-a" size={24} color="#022857" />
                 <FontAwesome5 name="cog" size={24} color="#022857" />
             </View>
+            {
+                stateAll.showBegin == true ? <DateTimePicker
+                    testID="dateTimePicker"
+                    value={stateAll.valBegin}
+                    mode={'time'}
+                    is24Hour={true}
+                    onChange={(e, selDate) => {
+                        onChangeTimes(e, selDate, 'begin')
+                    }}
+                /> : null
+            }
+            {
+                stateAll.showEnd == true ? <DateTimePicker
+                    testID="dateTimePicker"
+                    value={stateAll.valEnd}
+                    mode={'time'}
+                    is24Hour={true}
+                    onChange={(e, selDate) => {
+                        onChangeTimes(e, selDate, 'end')
+                    }}
+                /> : null
+            }
+
+
         </ScrollView>
 
     )

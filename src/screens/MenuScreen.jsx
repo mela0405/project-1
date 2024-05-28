@@ -7,20 +7,24 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function MenuScreen() {
+    const router = useNavigation()
     const buttonArray = [
         {
             id: 1,
             name: 'Configurar nuevo reporte',
             icon: <Entypo name="plus" size={30} color="white" />,
-            color: '#23356a'
+            color: '#23356a',
+            toGo:'report'
         },
         {
             id: 2,
             name: 'Realizar o continuar reporte ',
             icon: <Feather name="arrow-right" size={24} color="white" />,
-            color: '#7623cc'
+            color: '#7623cc',
+            toGo:'continue'
         },
         {
             id: 3,
@@ -61,7 +65,11 @@ export default function MenuScreen() {
                 {
                     buttonArray.map((obj) => {
                         return (
-                            <TouchableOpacity style={{
+                            <TouchableOpacity 
+                            onPress={()=>{
+                                router.navigate(obj.toGo)
+                            }}    
+                            style={{
                                 backgroundColor: obj.color,
                                 borderColor: obj.color,
                                 width: 400,

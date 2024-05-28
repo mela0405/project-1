@@ -1,15 +1,27 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-
-
-
+import { Picker } from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ReportScreen() {
+
+    const [date, setDate] = useState(new Date());
+    const [show, setShow] = useState(false);
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setShow(false);
+        setDate(currentDate);
+    };
+     
+    const router = useNavigation()
+
     return (
         <View style={{ width: '100%', height: '100%', position: 'relative' }}>
             <View
@@ -55,7 +67,49 @@ export default function ReportScreen() {
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ width: "50%", fontSize: 16 }}>Fecha de Inicio</Text>
-                    <TextInput style={{
+                    <TouchableOpacity onPress={() => setShow(true)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 40 }}>
+                        <Text
+                            style={{
+                                borderColor: '#022857',
+                                borderWidth: 1,
+                                margin: 1,
+                                height: 30,
+                                width: 70,
+                                paddingLeft: 10,
+                                borderRadius: 7,
+                            }}>
+
+                            <Text>{date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}</Text>
+                        </Text>
+                        <Text
+                            style={{
+                                borderColor: '#022857',
+                                borderWidth: 1,
+                                margin: 1,
+                                height: 30,
+                                width: 70,
+                                paddingLeft: 10,
+                                borderRadius: 7,
+                            }}>
+
+                            <Text>{date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth()}</Text>
+                        </Text>
+                        <Text
+                            style={{
+                                borderColor: '#022857',
+                                borderWidth: 1,
+                                margin: 1,
+                                height: 30,
+                                width: 70,
+                                paddingLeft: 10,
+                                borderRadius: 7,
+                            }}>
+
+                            <Text>{date.getFullYear()}</Text>
+                        </Text>
+                    </TouchableOpacity>
+
+                    {/* <TextInput style={{
                         borderColor: '#022857',
                         borderWidth: 1,
                         margin: 1,
@@ -64,7 +118,7 @@ export default function ReportScreen() {
                         paddingLeft: 10,
                         borderRadius: 7,
                     }}>
-                    </TextInput>
+                    </TextInput> */}
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ width: "50%", fontSize: 16 }}>Fecha de Finalización</Text>
@@ -151,8 +205,9 @@ export default function ReportScreen() {
                     </View>
                 </View>
             </View>
-            <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center',marginHorizontal:30, marginTop:60}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 30, marginTop: 60 }}>
                 <TouchableOpacity
+                    onPress={()=> router.navigate('menu')}
                     style={{
                         width: 100,
                         borderWidth: 1,
@@ -209,6 +264,17 @@ export default function ReportScreen() {
                 <Fontisto name="nav-icon-a" size={24} color="#022857" />
                 <FontAwesome5 name="cog" size={24} color="#022857" />
             </View>
+
+            {show && (
+                <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode={'date'}
+                    is24Hour={true}
+                    onChange={onChange}
+                />
+            )}
+
         </View>
     )
 }

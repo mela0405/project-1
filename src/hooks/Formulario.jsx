@@ -5,10 +5,9 @@ export default function Formulario() {
 
     const initialComments = [
         {
-            texto: ''
+            texto: '',
         },
     ]
-
 
 
     const [comments, setComments] = useState(initialComments)
@@ -26,7 +25,6 @@ export default function Formulario() {
         const temp = [...comments]
         temp[index].texto = text
         setComments(temp)
-
 
     }
 
